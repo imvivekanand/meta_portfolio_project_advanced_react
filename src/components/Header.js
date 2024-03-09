@@ -33,6 +33,31 @@ const socials = [
 ];
 
 const Header = () => {
+
+  const headRef = useRef(null);
+  useEffect(() => {
+    let previousScrollPosition = window.scrollY;
+    function handleScroll(){
+      const currentScrollPosition = window.scrollY;
+      const headEle = headRef.current;
+      if(!headEle){
+        return;
+      }
+      if(previousScrollPosition > currentScrollPosition){
+        headEle.style.transform = "translateY(0)";
+      }else{
+        headEle.style.transform = "translateY(-200px)";
+      }
+      previousScrollPosition=currentScrollPosition;
+      }
+      window.addEventListener('scroll', handleScroll)
+      return () => {
+        window.removeEventListener('scroll', handleScroll)
+      }
+    }
+  ,[ ]);
+
+
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
     const element = document.getElementById(id);
@@ -44,7 +69,7 @@ const Header = () => {
     }
   };
 
-  return (
+  return ( 
     <Box
       position="fixed"
       top={0}
@@ -65,10 +90,17 @@ const Header = () => {
         >
           <nav>
             {/* Add social media links based on the `socials` data */}
+            <HStack spacing={6}>
+              {socials.map((s) => (
+                <a key={s.url} href={s.url}><FontAwesomeIcon icon={s.icon} size="2x"/></a>
+              ))}
+            </HStack>
           </nav>
           <nav>
             <HStack spacing={8}>
               {/* Add links to Projects and Contact me section */}
+              <a href="#projects" onClick={handleClick("projects")}>Projects</a>
+              <a href="#contactme" onClick={handleClick("contactme")}>Contact Me</a>
             </HStack>
           </nav>
         </HStack>
