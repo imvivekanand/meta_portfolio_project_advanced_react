@@ -11,6 +11,7 @@ function App() {
   return (
     <ChakraProvider>
       <AlertProvider>
+
         <main>
           <Header />
           <LandingSection />
@@ -19,6 +20,7 @@ function App() {
           <Footer />
           <Alert />
         </main>
+        
       </AlertProvider>
     </ChakraProvider>
   );
